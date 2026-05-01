@@ -6,8 +6,8 @@ const Sidebar = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', label: 'Dashboard', icon: '📊' },
-    { path: '/projects', label: 'Projects', icon: '📁' },
+    { path: '/', label: 'Dashboard'},
+    { path: '/projects', label: 'Projects' },
   ];
 
   const isActive = (path) => {
