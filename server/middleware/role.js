@@ -3,7 +3,7 @@ const Project = require('../models/Project');
 // Check if user is an Admin of the project
 const requireAdmin = async (req, res, next) => {
   try {
-    const projectId = req.params.id || req.params.projectId;
+    const projectId = req.params.projectId || req.params.id;
 
     if (!projectId) {
       return res.status(400).json({ message: 'Project ID is required' });
@@ -35,7 +35,7 @@ const requireAdmin = async (req, res, next) => {
 // Check if user is a member of the project (any role)
 const requireMember = async (req, res, next) => {
   try {
-    const projectId = req.params.id || req.params.projectId;
+    const projectId = req.params.projectId || req.params.id;
 
     if (!projectId) {
       return res.status(400).json({ message: 'Project ID is required' });
