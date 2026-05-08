@@ -24,7 +24,7 @@ const DashboardPage = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-gray-500">Loading dashboard...</p>
+        <p className="text-ds-text-muted">Loading dashboard...</p>
       </div>
     );
   }
@@ -32,23 +32,23 @@ const DashboardPage = () => {
   if (!data) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-gray-500">Failed to load dashboard</p>
+        <p className="text-ds-text-muted">Failed to load dashboard</p>
       </div>
     );
   }
 
   const statCards = [
-    { label: 'Total Projects', value: data.totalProjects, color: 'bg-white' },
-    { label: 'Total Tasks', value: data.totalTasks, color: 'bg-white' },
-    { label: 'My Tasks', value: data.myTasks, color: 'bg-white' },
-    { label: 'Overdue', value: data.overdueTasks, color: data.overdueTasks > 0 ? 'bg-red-50' : 'bg-white' },
+    { label: 'Total Projects', value: data.totalProjects },
+    { label: 'Total Tasks', value: data.totalTasks },
+    { label: 'My Tasks', value: data.myTasks },
+    { label: 'Overdue', value: data.overdueTasks, isAlert: data.overdueTasks > 0 },
   ];
 
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900">Dashboard</h2>
-        <p className="text-sm text-gray-500 mt-1">Overview of your projects and tasks</p>
+        <h2 className="text-xl font-semibold text-ds-text-primary">Dashboard</h2>
+        <p className="text-sm text-ds-text-muted mt-1">Overview of your projects and tasks</p>
       </div>
 
       {/* Stat Cards */}
@@ -56,44 +56,46 @@ const DashboardPage = () => {
         {statCards.map((stat) => (
           <div
             key={stat.label}
-            className={`${stat.color} border border-gray-200 rounded-lg p-5`}
+            className={`bg-ds-surface border rounded p-5 ${
+              stat.isAlert ? 'border-ds-error/30' : 'border-ds-border'
+            }`}
           >
-            <p className="text-sm text-gray-500">{stat.label}</p>
-            <p className="text-2xl font-semibold text-gray-900 mt-1">{stat.value}</p>
+            <p className="text-sm text-ds-text-muted font-[var(--font-mono)] uppercase tracking-wider text-xs">{stat.label}</p>
+            <p className={`text-2xl font-semibold mt-1 ${stat.isAlert ? 'text-ds-error' : 'text-ds-text-primary'}`}>{stat.value}</p>
           </div>
         ))}
       </div>
 
       {/* Status Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white border border-gray-200 rounded-lg p-5">
-          <h3 className="text-sm font-medium text-gray-900 mb-4">Task Status Breakdown</h3>
+        <div className="bg-ds-surface border border-ds-border rounded p-5">
+          <h3 className="text-sm font-medium text-ds-text-primary mb-4">Task Status Breakdown</h3>
           <div className="space-y-3">
             {Object.entries(data.statusCounts).map(([status, count]) => (
               <div key={status} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <StatusBadge status={status} />
                 </div>
-                <span className="text-sm font-medium text-gray-900">{count}</span>
+                <span className="text-sm font-medium text-ds-text-primary font-[var(--font-mono)]">{count}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-5">
-          <h3 className="text-sm font-medium text-gray-900 mb-4">Your Projects</h3>
+        <div className="bg-ds-surface border border-ds-border rounded p-5">
+          <h3 className="text-sm font-medium text-ds-text-primary mb-4">Your Projects</h3>
           {data.projects.length === 0 ? (
-            <p className="text-sm text-gray-500">No projects yet</p>
+            <p className="text-sm text-ds-text-muted">No projects yet</p>
           ) : (
             <div className="space-y-2">
               {data.projects.map((project) => (
                 <Link
                   key={project._id}
                   to={`/projects/${project._id}`}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-3 rounded hover:bg-ds-surface-hover transition-colors"
                 >
-                  <span className="text-sm font-medium text-gray-900">{project.name}</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-sm font-medium text-ds-text-primary">{project.name}</span>
+                  <span className="text-xs text-ds-text-muted font-[var(--font-mono)]">
                     {project.members?.length || 0} members
                   </span>
                 </Link>
@@ -105,19 +107,19 @@ const DashboardPage = () => {
 
       {/* Overdue Tasks */}
       {data.overdueTasksList && data.overdueTasksList.length > 0 && (
-        <div className="bg-white border border-red-200 rounded-lg p-5 mb-8">
-          <h3 className="text-sm font-medium text-red-700 mb-4">
+        <div className="bg-ds-surface border border-ds-error/30 rounded p-5 mb-8">
+          <h3 className="text-sm font-medium text-ds-error mb-4">
             Overdue Tasks ({data.overdueTasksList.length})
           </h3>
           <div className="space-y-3">
             {data.overdueTasksList.map((task) => (
               <div
                 key={task._id}
-                className="flex items-center justify-between p-3 bg-red-50 rounded-lg"
+                className="flex items-center justify-between p-3 bg-ds-error-bg rounded"
               >
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{task.title}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-sm font-medium text-ds-text-primary">{task.title}</p>
+                  <p className="text-xs text-ds-text-muted font-[var(--font-mono)]">
                     {task.project?.name} • Due: {new Date(task.dueDate).toLocaleDateString()}
                   </p>
                 </div>
@@ -129,20 +131,20 @@ const DashboardPage = () => {
       )}
 
       {/* Recent Tasks */}
-      <div className="bg-white border border-gray-200 rounded-lg p-5">
-        <h3 className="text-sm font-medium text-gray-900 mb-4">Recent Tasks</h3>
+      <div className="bg-ds-surface border border-ds-border rounded p-5">
+        <h3 className="text-sm font-medium text-ds-text-primary mb-4">Recent Tasks</h3>
         {data.recentTasks.length === 0 ? (
-          <p className="text-sm text-gray-500">No tasks yet</p>
+          <p className="text-sm text-ds-text-muted">No tasks yet</p>
         ) : (
           <div className="space-y-2">
             {data.recentTasks.map((task) => (
               <div
                 key={task._id}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50"
+                className="flex items-center justify-between p-3 rounded hover:bg-ds-surface-hover transition-colors"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{task.title}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-sm font-medium text-ds-text-primary truncate">{task.title}</p>
+                  <p className="text-xs text-ds-text-muted">
                     {task.project?.name}
                     {task.assignedTo && ` • ${task.assignedTo.name}`}
                   </p>

@@ -31,15 +31,15 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
-        <div className="flex items-center justify-between p-5 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-ds-surface border border-ds-border rounded w-full max-w-md mx-4">
+        <div className="flex items-center justify-between p-5 border-b border-ds-border">
+          <h3 className="text-lg font-semibold text-ds-text-primary">
             {task ? 'Edit Task' : 'Create Task'}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl"
+            className="text-ds-text-muted hover:text-ds-text-primary text-xl cursor-pointer"
           >
             ×
           </button>
@@ -47,7 +47,7 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
 
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-ds-text-secondary mb-1">
               Title *
             </label>
             <input
@@ -55,13 +55,13 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full border border-ds-border rounded px-3 py-2 text-sm bg-ds-base text-ds-text-primary focus:outline-none focus:border-ds-cyan focus:shadow-[0_0_0_1px_var(--color-ds-cyan)] placeholder-ds-text-muted"
               placeholder="Enter task title"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-ds-text-secondary mb-1">
               Description
             </label>
             <textarea
@@ -70,13 +70,13 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
                 setFormData({ ...formData, description: e.target.value })
               }
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none"
+              className="w-full border border-ds-border rounded px-3 py-2 text-sm bg-ds-base text-ds-text-primary focus:outline-none focus:border-ds-cyan focus:shadow-[0_0_0_1px_var(--color-ds-cyan)] placeholder-ds-text-muted resize-none"
               placeholder="Enter task description"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-ds-text-secondary mb-1">
               Assign To
             </label>
             <select
@@ -84,7 +84,7 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, assignedTo: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full border border-ds-border rounded px-3 py-2 text-sm bg-ds-base text-ds-text-primary focus:outline-none focus:border-ds-cyan focus:shadow-[0_0_0_1px_var(--color-ds-cyan)]"
             >
               <option value="">Unassigned</option>
               {members?.map((m) => (
@@ -96,7 +96,7 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-ds-text-secondary mb-1">
               Status
             </label>
             <select
@@ -104,7 +104,7 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, status: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full border border-ds-border rounded px-3 py-2 text-sm bg-ds-base text-ds-text-primary focus:outline-none focus:border-ds-cyan focus:shadow-[0_0_0_1px_var(--color-ds-cyan)]"
             >
               <option value="To Do">To Do</option>
               <option value="In Progress">In Progress</option>
@@ -113,7 +113,7 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-ds-text-secondary mb-1">
               Due Date
             </label>
             <input
@@ -122,7 +122,8 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, dueDate: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              onClick={(e) => e.target.showPicker?.()}
+              className="w-full border border-ds-border rounded px-3 py-2 text-sm bg-ds-base text-ds-text-primary focus:outline-none focus:border-ds-cyan focus:shadow-[0_0_0_1px_var(--color-ds-cyan)] cursor-pointer"
             />
           </div>
 
@@ -130,13 +131,13 @@ const TaskForm = ({ task, members, onSubmit, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-ds-text-secondary bg-transparent border border-ds-border rounded hover:bg-ds-surface-hover transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-ds-base bg-ds-cyan rounded hover:brightness-110 transition-all cursor-pointer"
             >
               {task ? 'Update' : 'Create'}
             </button>
