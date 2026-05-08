@@ -60,3 +60,7 @@ A full-stack project management application with role-based access control.
 - View tasks within their projects
 - **Update status** (To Do, In Progress, Done) for tasks assigned to them
 - Restricted from creating or deleting projects/tasks
+
+# Deployment Links
+- Frontend: https://assessment-task-manager.vercel.app/
+- Backend: https://assessment-task-manager.onrender.com/
