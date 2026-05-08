@@ -13,6 +13,7 @@ const app = express();
 // Middleware
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://assessment-task-manager.vercel.app',
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
